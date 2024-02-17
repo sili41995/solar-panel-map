@@ -1,0 +1,34 @@
+import { FC, useEffect, useState } from 'react';
+import { PagePaths } from '@/constants';
+import { useParams } from 'react-router-dom';
+import { ITargetEntry } from '@/types/types';
+import solarPanelsEntriesServiceApi from '@/service/solarPanelsEntriesServiceApi';
+
+const EntryDetailsPage: FC = () => {
+  const [targetEntry, setTargetEntry] = useState<ITargetEntry | null>(null);
+  const id = useParams()[PagePaths.dynamicParam];
+
+  useEffect(() => {
+    const getSolarPanelsEntryById = async (id: string) => {
+      const result = await solarPanelsEntriesServiceApi.getEntryById(id);
+      setTargetEntry(result.feature);
+    };
+
+    id && getSolarPanelsEntryById(id);
+  }, [id]);
+
+  return (
+    targetEntry && (
+      <iframe
+        src={`https://map.geo.admin.ch/embed.html?lang=en&topic=energie&bgLayer=ch.swisstopo.swissimage&catalogNodes=2419,2420,2427,2480,2429,2431,2434,2436,2767,2441,3206&layers=ch.swisstopo.amtliches-strassenverzeichnis,ch.bfe.solarenergie-eignung-daecher&zoom=13&layers_opacity=0.85,0.65&E=${
+          targetEntry.geometry.rings[0][0][0] + 2000000
+        }&N=${targetEntry.geometry.rings[0][0][1] + 1000000}&zoom=20`}
+        width='600'
+        height='450'
+        allow='geolocation'
+      ></iframe>
+    )
+  );
+};
+
+export default EntryDetailsPage;
