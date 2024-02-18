@@ -36,7 +36,13 @@ const EntryDetailsPage: FC = () => {
           width='600'
           height='450'
           allow='geolocation'
-        ></iframe>
+        >
+          <canvas
+            width='200'
+            height='200'
+            style={{ width: 100, height: 100 }}
+          />
+        </iframe>
       )}
     </>
   );
