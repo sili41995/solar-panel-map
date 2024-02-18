@@ -11,7 +11,7 @@ const App: FC = () => {
       <Route path={PagePaths.homePath} element={<SharedLayout />}>
         <Route index element={<HomePage />} />
         <Route
-          path={`${PagePaths.homePath}:${PagePaths.dynamicParam}`}
+          path={`${PagePaths.panelsPath}/:${PagePaths.dynamicParam}`}
           element={<EntryDetailsPage />}
         />
         <Route path='*' element={<div>notFound</div>} />
